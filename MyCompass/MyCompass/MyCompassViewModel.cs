@@ -45,6 +45,30 @@ namespace MyCompass
             set => SetProperty(ref azimut, value);
         }
 
+        double megx = 0;
+
+        public double Megx
+        {
+            get => megx;
+            set => SetProperty(ref megx, value);
+        }
+
+        double megy = 0;
+
+        public double Megy
+        {
+            get => megy;
+            set => SetProperty(ref megy, value);
+        }
+
+        double megz = 0;
+
+        public double Megz
+        {
+            get => megz;
+            set => SetProperty(ref megz, value);
+        }
+
         string pitchDisplay;
         public string PitchDisplay
         {
@@ -91,6 +115,12 @@ namespace MyCompass
                 Accelerometer.ReadingChanged -= Accelerometer_ReadingChanged;
                 Accelerometer.Stop();
             }
+
+            if (Magnetometer.IsMonitoring)
+            {
+                Magnetometer.ReadingChanged -= Magnetometer_ReadingChanged;
+                Magnetometer.Stop();
+            }
         }
 
 
@@ -98,7 +128,7 @@ namespace MyCompass
 
         void Start()
         {
-            if (Compass.IsMonitoring || Accelerometer.IsMonitoring)
+            if (Compass.IsMonitoring || Accelerometer.IsMonitoring || Magnetometer.IsMonitoring)
                 return;
    
             Compass.ReadingChanged += Compass_ReadingChanged;
@@ -106,6 +136,9 @@ namespace MyCompass
 
             Accelerometer.ReadingChanged += Accelerometer_ReadingChanged;
             Accelerometer.Start(SensorSpeed.UI);
+
+            Magnetometer.ReadingChanged += Magnetometer_ReadingChanged;
+            Magnetometer.Start(SensorSpeed.UI);
 
         }
 
@@ -158,21 +191,50 @@ namespace MyCompass
             HeadingDisplay = $"Heading: {e.Reading.HeadingMagneticNorth.ToString()}";
         }
 
+        void Magnetometer_ReadingChanged(object sender, MagnetometerChangedEventArgs e)
+        {
+            var magnetometerData = e.Reading.MagneticField;
+            double megx = magnetometerData.X;
+            double megy = magnetometerData.Y;
+            double megz = magnetometerData.Z;
+            Debug.WriteLine($"MagneticField: {magnetometerData.X.ToString()} {magnetometerData.Y.ToString()} {magnetometerData.Z.ToString()}");
+        }
+
         void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)
         {
             
             var data = e.Reading;
             Pitch = Math.Acos(data.Acceleration.Z / Math.Sqrt(Math.Pow(data.Acceleration.X, 2) + Math.Pow(data.Acceleration.Y, 2) + Math.Pow(data.Acceleration.Z, 2))) * (180.0 / Math.PI);
             Roll = Math.Atan2(-data.Acceleration.X, data.Acceleration.Z) * (180.0 / Math.PI);
-            Azimut = Math.Atan2(data.Acceleration.X, data.Acceleration.Y) * (180.0 / Math.PI);
-            Debug.WriteLine($"Pitch: {Pitch.ToString()}");
-            Debug.WriteLine($"Roll: {Roll.ToString()}");
-            Debug.WriteLine($"Azimut: {Azimut.ToString()}");
+
+            double sinRoll = Math.Sin(Roll * Math.PI / 180.0);
+            double cosRoll = Math.Cos(Roll * Math.PI / 180.0);
+            double sinPitch = Math.Sin(Pitch * Math.PI / 180.0);
+            double cosPitch = Math.Cos(Pitch * Math.PI / 180.0);
+
+            double Xh = megx * cosPitch + megy * sinPitch * sinRoll + megz * sinPitch * cosRoll;
+            double Yh = megy * cosRoll - megz * sinRoll;
+
+            Debug.WriteLine($"megx: {megx.ToString()} megy: {megy.ToString()} megz: {megz.ToString()}");
+
+            Azimut = Math.Atan2(-Yh, Xh) * (180.0 / Math.PI);
+
+            if (Azimut < 0)
+            {
+                Azimut += 360.0;
+            }
+
+            // Output to debug and Display
+            AzimutDisplay = $"Azimut: {Azimut.ToString()}";
+            //Debug.WriteLine($"Pitch: {Pitch.ToString()}");
+            //Debug.WriteLine($"Roll: {Roll.ToString()}");
+            //Debug.WriteLine($"Azimut: {Azimut.ToString()}");
             PitchDisplay = $"Pitch: {Pitch.ToString()}";
             RollDisplay = $"Roll: {Roll.ToString()}";
             AzimutDisplay = $"Azimut: {Azimut.ToString()}";
 
         }
+        
     }
 
 }
