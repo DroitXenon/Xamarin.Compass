@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.MyCompass" android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="22" android:targetSdkVersion="33" />
+	<application android:label="MyCompass.Android"></application>
+	<uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS" />
+</manifest>
