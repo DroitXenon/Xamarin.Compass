@@ -49,6 +49,5 @@
            VerticalOptions="Center" 
            HorizontalOptions="Center" />
 
-
     </Grid>
 </ContentPage>
