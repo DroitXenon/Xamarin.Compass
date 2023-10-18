@@ -68,9 +68,6 @@ namespace MyCompass
             set => SetProperty(ref azimutDisplay, value);
         }
 
-
-
-
         double heading = 0;
 
         public double Heading
@@ -171,6 +168,10 @@ namespace MyCompass
             Debug.WriteLine($"Pitch: {Pitch.ToString()}");
             Debug.WriteLine($"Roll: {Roll.ToString()}");
             Debug.WriteLine($"Azimut: {Azimut.ToString()}");
+            PitchDisplay = $"Pitch: {Pitch.ToString()}";
+            RollDisplay = $"Roll: {Roll.ToString()}";
+            AzimutDisplay = $"Azimut: {Azimut.ToString()}";
+
         }
     }
 

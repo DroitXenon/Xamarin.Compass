@@ -30,6 +30,25 @@
            x:Name="LabelInfo"
            VerticalOptions="Center" 
            HorizontalOptions="Center" />
+        
+        <Label Grid.Row="2" 
+            Text="{Binding PitchDisplay}" 
+           x:Name="LabelInfo"
+           VerticalOptions="Center" 
+           HorizontalOptions="Center" />
+
+        <Label Grid.Row="3" 
+            Text="{Binding RollDisplay}" 
+           x:Name="LabelInfo"
+           VerticalOptions="Center" 
+           HorizontalOptions="Center" />
+
+        <Label Grid.Row="4" 
+            Text="{Binding AzimutDisplay}" 
+           x:Name="LabelInfo"
+           VerticalOptions="Center" 
+           HorizontalOptions="Center" />
+
 
     </Grid>
 </ContentPage>
