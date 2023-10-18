@@ -163,8 +163,8 @@ namespace MyCompass
             
             var data = e.Reading;
             Pitch = Math.Acos(data.Acceleration.Z / Math.Sqrt(Math.Pow(data.Acceleration.X, 2) + Math.Pow(data.Acceleration.Y, 2) + Math.Pow(data.Acceleration.Z, 2))) * (180.0 / Math.PI);
-            Roll = Math.Acos(data.Acceleration.Y / Math.Sqrt(Math.Pow(data.Acceleration.X, 2) + Math.Pow(data.Acceleration.Y, 2) + Math.Pow(data.Acceleration.Z, 2))) * (180.0 / Math.PI);
-            Azimut = Math.Acos(data.Acceleration.X / Math.Sqrt(Math.Pow(data.Acceleration.X, 2) + Math.Pow(data.Acceleration.Y, 2) + Math.Pow(data.Acceleration.Z, 2))) * (180.0 / Math.PI);    
+            Roll = Math.Atan2(-data.Acceleration.X, data.Acceleration.Z) * (180.0 / Math.PI);
+            Azimut = Math.Atan2(data.Acceleration.X, data.Acceleration.Y) * (180.0 / Math.PI);
             Debug.WriteLine($"Pitch: {Pitch.ToString()}");
             Debug.WriteLine($"Roll: {Roll.ToString()}");
             Debug.WriteLine($"Azimut: {Azimut.ToString()}");
