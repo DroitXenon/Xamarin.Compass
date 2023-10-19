@@ -178,7 +178,7 @@ namespace MyCompass
             {
                 newHeading = (newHeading + 180) % 360;
             }
-
+            //Debug.WriteLine($"pitch: {pitch.ToString()} newHeading: {newHeading.ToString()}");
             var oldVector = AngleToVector(Heading);
             var newVector = AngleToVector(newHeading);
 
@@ -194,10 +194,10 @@ namespace MyCompass
         void Magnetometer_ReadingChanged(object sender, MagnetometerChangedEventArgs e)
         {
             var magnetometerData = e.Reading.MagneticField;
-            double megx = magnetometerData.X;
-            double megy = magnetometerData.Y;
-            double megz = magnetometerData.Z;
-            Debug.WriteLine($"MagneticField: {magnetometerData.X.ToString()} {magnetometerData.Y.ToString()} {magnetometerData.Z.ToString()}");
+            Megx = magnetometerData.X;
+            Megy = magnetometerData.Y;
+            Megz = magnetometerData.Z;
+            //Debug.WriteLine($"MagneticField: {magnetometerData.X.ToString()} {magnetometerData.Y.ToString()} {magnetometerData.Z.ToString()}");
         }
 
         void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)
