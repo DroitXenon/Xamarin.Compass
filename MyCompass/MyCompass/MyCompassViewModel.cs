@@ -174,10 +174,6 @@ namespace MyCompass
            
             double newHeading = e.Reading.HeadingMagneticNorth;
 
-            if (pitch > 90)
-            {
-                newHeading = (newHeading + 180) % 360;
-            }
             //Debug.WriteLine($"pitch: {pitch.ToString()} newHeading: {newHeading.ToString()}");
             var oldVector = AngleToVector(Heading);
             var newVector = AngleToVector(newHeading);
@@ -197,38 +193,19 @@ namespace MyCompass
             Megx = magnetometerData.X;
             Megy = magnetometerData.Y;
             Megz = magnetometerData.Z;
-            //Debug.WriteLine($"MagneticField: {magnetometerData.X.ToString()} {magnetometerData.Y.ToString()} {magnetometerData.Z.ToString()}");
+            Debug.WriteLine($"MagneticField: {magnetometerData.X.ToString()} {magnetometerData.Y.ToString()} {magnetometerData.Z.ToString()}");
         }
 
         void Accelerometer_ReadingChanged(object sender, AccelerometerChangedEventArgs e)
         {
             
             var data = e.Reading;
-            Pitch = Math.Acos(data.Acceleration.Z / Math.Sqrt(Math.Pow(data.Acceleration.X, 2) + Math.Pow(data.Acceleration.Y, 2) + Math.Pow(data.Acceleration.Z, 2))) * (180.0 / Math.PI);
+            Pitch = Math.Atan2(data.Acceleration.Y, Math.Sqrt(Math.Pow(data.Acceleration.X, 2) + Math.Pow(data.Acceleration.Z, 2))) * (180.0 / Math.PI);
             Roll = Math.Atan2(-data.Acceleration.X, data.Acceleration.Z) * (180.0 / Math.PI);
+            
 
-            double sinRoll = Math.Sin(Roll * Math.PI / 180.0);
-            double cosRoll = Math.Cos(Roll * Math.PI / 180.0);
-            double sinPitch = Math.Sin(Pitch * Math.PI / 180.0);
-            double cosPitch = Math.Cos(Pitch * Math.PI / 180.0);
+            
 
-            double Xh = megx * cosPitch + megy * sinPitch * sinRoll + megz * sinPitch * cosRoll;
-            double Yh = megy * cosRoll - megz * sinRoll;
-
-            Debug.WriteLine($"megx: {megx.ToString()} megy: {megy.ToString()} megz: {megz.ToString()}");
-
-            Azimut = Math.Atan2(-Yh, Xh) * (180.0 / Math.PI);
-
-            if (Azimut < 0)
-            {
-                Azimut += 360.0;
-            }
-
-            // Output to debug and Display
-            AzimutDisplay = $"Azimut: {Azimut.ToString()}";
-            //Debug.WriteLine($"Pitch: {Pitch.ToString()}");
-            //Debug.WriteLine($"Roll: {Roll.ToString()}");
-            //Debug.WriteLine($"Azimut: {Azimut.ToString()}");
             PitchDisplay = $"Pitch: {Pitch.ToString()}";
             RollDisplay = $"Roll: {Roll.ToString()}";
             AzimutDisplay = $"Azimut: {Azimut.ToString()}";
