@@ -8,29 +8,30 @@ using Xamarin.Essentials;
 
 namespace MyCompass
 {
-	public partial class MainPage : ContentPage
-	{
-		public MainPage()
-		{
-			InitializeComponent();
-           
-		}
+    public partial class MainPage : ContentPage
+    {
+        public MainPage()
+        {
+            InitializeComponent();
+            Compass.ReadingChanged += Compass_ReadingChanged;
+        }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            if(!DesignMode.IsDesignModeEnabled)
-                ((MyCompassViewModel)BindingContext).StartCommand.Execute(null);
+            Compass.Start(SensorSpeed.UI);
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            if (!DesignMode.IsDesignModeEnabled)
-                ((MyCompassViewModel)BindingContext).StopCommand.Execute(null);
+            Compass.Stop();
         }
 
+        private void Compass_ReadingChanged(object sender, CompassChangedEventArgs e)
+        {
+            // Assuming HeadingMagneticNorth is in degrees
+            headingLabel.Text = $"Heading: {e.Reading.HeadingMagneticNorth}°";
+        }
     }
-
-   
 }

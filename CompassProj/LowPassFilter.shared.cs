@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Xamarin.Essentials;
 
-
 namespace MyEssentials
 {
     class LowPassFilter

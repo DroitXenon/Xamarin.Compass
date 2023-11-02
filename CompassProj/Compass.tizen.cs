@@ -2,7 +2,6 @@
 using TizenCompass = Tizen.Sensor.OrientationSensor;
 using Xamarin.Essentials;
 
-
 namespace MyEssentials
 {
     public static partial class Compass

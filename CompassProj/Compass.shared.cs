@@ -1,7 +1,6 @@
 ﻿using System;
 using Xamarin.Essentials;
 
-
 namespace MyEssentials
 {
     public static partial class Compass

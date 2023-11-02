@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Compass.android.cs" />
+    <Compile Remove="Compass.ios.cs" />
+    <Compile Remove="Compass.tizen.cs" />
+    <Compile Remove="Compass.uwp.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Compass.android.cs" />
+    <None Include="Compass.ios.cs" />
+    <None Include="Compass.tizen.cs" />
+    <None Include="Compass.uwp.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Essentials" Version="1.8.0" />
+  </ItemGroup>
+
+</Project>

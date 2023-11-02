@@ -4,7 +4,6 @@ using Android.Hardware;
 using Android.Runtime;
 using Xamarin.Essentials;
 
-
 namespace MyEssentials
 {
     public static partial class Compass
@@ -63,7 +62,7 @@ namespace MyEssentials
         void ISensorEventListener.OnAccuracyChanged(Sensor sensor, SensorStatus accuracy)
         {
         }
-
+        
         static float[] MultiplyMatrices(float[] a, float[] b)
         {
             var result = new float[9];
@@ -134,7 +133,6 @@ namespace MyEssentials
                     azimuthInRadians = filter.Average();
                 }
                 var azimuthInDegress = (Java.Lang.Math.ToDegrees(azimuthInRadians) + 360.0) % 360.0;
-                // azimuthInDegress = 0;
 
                 var data = new CompassData(azimuthInDegress);
                 Compass.OnChanged(data);

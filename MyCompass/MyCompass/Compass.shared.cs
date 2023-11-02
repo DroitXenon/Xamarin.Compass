@@ -2,7 +2,7 @@
 using Xamarin.Essentials;
 
 
-namespace MyEssentials
+namespace MyCompass
 {
     public static partial class Compass
     {
@@ -16,9 +16,6 @@ namespace MyEssentials
 
         public static void Start(SensorSpeed sensorSpeed, bool applyLowPassFilter)
         {
-            if (!IsSupported)
-                throw new FeatureNotSupportedException();
-
             if (IsMonitoring)
                 throw new InvalidOperationException("Compass has already been started.");
 
@@ -38,8 +35,6 @@ namespace MyEssentials
 
         public static void Stop()
         {
-            if (!IsSupported)
-                throw new FeatureNotSupportedException();
 
             if (!IsMonitoring)
                 return;

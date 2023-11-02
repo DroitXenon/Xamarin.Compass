@@ -1,8 +1,7 @@
 ﻿using Windows.Devices.Sensors;
-using Xamarin.Essentials;
-
 
 using WindowsCompass = Windows.Devices.Sensors.Compass;
+using Xamarin.Essentials;
 
 namespace MyEssentials
 {

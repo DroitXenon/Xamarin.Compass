@@ -4,14 +4,11 @@ using Android.Hardware;
 using Android.Runtime;
 using Xamarin.Essentials;
 
-
-namespace MyEssentials
+[assembly: Xamarin.Forms.Dependency(typeof(MyCompass.Droid.Compass))]
+namespace MyCompass.Droid
 {
     public static partial class Compass
     {
-        internal static bool IsSupported =>
-            Platform.SensorManager?.GetDefaultSensor(SensorType.Accelerometer) != null &&
-            Platform.SensorManager?.GetDefaultSensor(SensorType.MagneticField) != null;
 
         static SensorListener listener;
         static Sensor magnetometer;
@@ -19,7 +16,7 @@ namespace MyEssentials
 
         internal static void PlatformStart(SensorSpeed sensorSpeed, bool applyLowPassFilter)
         {
-            var delay = sensorSpeed.ToPlatform();
+            var delay = SensorDelay.Ui;
             accelerometer = Platform.SensorManager.GetDefaultSensor(SensorType.Accelerometer);
             magnetometer = Platform.SensorManager.GetDefaultSensor(SensorType.MagneticField);
             listener = new SensorListener(accelerometer.Name, magnetometer.Name, delay, applyLowPassFilter);
@@ -41,7 +38,6 @@ namespace MyEssentials
 
     class SensorListener : Java.Lang.Object, ISensorEventListener, IDisposable
     {
-        LowPassFilter filter = new LowPassFilter();
         float[] lastAccelerometer = new float[3];
         float[] lastMagnetometer = new float[3];
         bool lastAccelerometerSet;
@@ -128,11 +124,6 @@ namespace MyEssentials
 
                 var azimuthInRadians = orientation[0];
 
-                if (applyLowPassFilter)
-                {
-                    filter.Add(azimuthInRadians);
-                    azimuthInRadians = filter.Average();
-                }
                 var azimuthInDegress = (Java.Lang.Math.ToDegrees(azimuthInRadians) + 360.0) % 360.0;
                 // azimuthInDegress = 0;
 
